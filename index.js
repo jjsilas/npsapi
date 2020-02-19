@@ -1,14 +1,15 @@
     
 'use strict';
 
-// put your own value below!
+// APIkey
 const apiKey = 'vLXnnFm5eegsmvjJpVaTsEpnPV5YQE4cdZeCBv7N'; 
+//End Point URL
 const searchURL = 'https://developer.nps.gov/api/v1/parks';
 
 
 function formatQueryParams(params) {
   const queryItems = Object.keys(params)
-    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
   return queryItems.join('&');
 }
 
@@ -18,29 +19,26 @@ function displayResults(responseJson) {
   $('#results').empty();
   // iterate through the items array
   for (let i = 0; i < responseJson.data.length; i++){
-    // for each video object in the items 
-    //array, add a list item to the results 
-    //list with the video title, description,
-    //and thumbnail
+    
     $('#results').append(
       `<li><h3>${responseJson.data[i].fullName}</h3>
       <p>${responseJson.data[i].description}</p>
-      <span>
+      <h4>Directions</h4> <p>${responseJson.data[i].directionsInfo}</p>
+      
+      <h5>Website<span>
       <a href='${responseJson.data[i].url}'>
       ${responseJson.data[i].url}
-      </span>
+      </span></h5>
       </li>`
     );
   }
- 
 }
 
-function getListOfNps(parkCode, maxResults=10) {
+function getListOfNps(q, maxResults=10) {
   const params = {
-    parkCode: parkCode,
+    q: q,
     api_key: apiKey,
-    //stateCode: stateCode,
-    //limit:maxResults   
+    limit: maxResults   
   };
   const queryString = formatQueryParams(params);
   const url = searchURL + '?' + queryString;

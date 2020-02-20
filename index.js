@@ -34,9 +34,9 @@ function displayResults(responseJson) {
   }
 }
 
-function getListOfNps(q, maxResults=10) {
+function getListOfNps(stateCode, maxResults=10) {
   const params = {
-    q: q,
+    stateCode: stateCode,
     api_key: apiKey,
     limit: maxResults   
   };
@@ -66,6 +66,7 @@ function watchForm() {
     getListOfNps(searchTerm, maxResults);
   });
 }
+
 
 $(watchForm);
 
